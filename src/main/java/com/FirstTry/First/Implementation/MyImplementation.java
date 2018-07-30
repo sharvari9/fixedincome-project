@@ -7,8 +7,6 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Date;
-
 
 @Repository
 public class MyImplementation implements myinterface {
@@ -47,7 +45,7 @@ public class MyImplementation implements myinterface {
     }
 
     @Override
-    public Data getData(urlObj obj) {
+    public Data getData(GetDataInput obj) {
         String clientCode=obj.getClientCode();
        // System.out.println("received "+ obj.getClientCode());
         String clientSql = "select * from client_master where CLIENT_CODE=?";
