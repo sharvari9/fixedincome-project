@@ -1,9 +1,7 @@
 package com.FirstTry.First.controller;
 
 import com.FirstTry.First.Implementation.MyImplementation;
-import com.FirstTry.First.Model.Credential;
-import com.FirstTry.First.Model.Data;
-import com.FirstTry.First.Model.urlObj;
+import com.FirstTry.First.Model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,13 +13,13 @@ public class RestController {
     MyImplementation mi;
 
     @RequestMapping(value = "/login")
-    public Credential login(@RequestBody Credential cd)//database obj
+    public LoginResponse login(@RequestBody Credential cd)//database obj
     {
         return mi.login(cd);
     }
 
 @RequestMapping(value = "/getdata")
-    public Data getData(@RequestBody urlObj clientCode ){
+    public Data getData(@RequestBody GetDataInput clientCode ){
 
        // System.out.println("calling get");
         Data d=mi.getData(clientCode);

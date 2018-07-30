@@ -46,8 +46,10 @@ public class MyImplementation implements myinterface {
         return loginResponse;
     }
 
+
+
     @Override
-    public Data getData(urlObj obj) {
+    public Data getData(GetDataInput obj) {
         String clientCode=obj.getClientCode();
        // System.out.println("received "+ obj.getClientCode());
         String clientSql = "select * from client_master where CLIENT_CODE=?";
