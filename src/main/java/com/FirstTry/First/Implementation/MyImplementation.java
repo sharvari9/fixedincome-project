@@ -46,8 +46,6 @@ public class MyImplementation implements myinterface {
         return loginResponse;
     }
 
-
-
     @Override
     public Data getData(GetDataInput obj) {
         String clientCode=obj.getClientCode();
