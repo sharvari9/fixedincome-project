@@ -3,7 +3,8 @@ package com.FirstTry.First.controller;
 import com.FirstTry.First.Implementation.MyImplementation;
 import com.FirstTry.First.Model.Credential;
 import com.FirstTry.First.Model.Data;
-import com.FirstTry.First.Model.urlObj;
+import com.FirstTry.First.Model.GetDataInput;
+import com.FirstTry.First.Model.LoginResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
