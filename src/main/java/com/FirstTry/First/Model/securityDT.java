@@ -1,48 +1,76 @@
 package com.FirstTry.First.Model;
 
 public class securityDT {
-    String SYMBOL,SECURITY,DCC,CPN_FREQ;
+    String symbol,security,dcc,cpn_freq;
 
-    Double COUPON,Day_Change,PRICE;
+    Double coupon,day_change,price;
 
-    public String getSYMBOL() {
-        return SYMBOL;
+    public String getSymbol() {
+        return symbol;
     }
 
-    public String getSECURITY() {
-        return SECURITY;
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 
-    public String getDCC() {
-        return DCC;
-    }
-
-    public String getCPN_FREQ() {
-        return CPN_FREQ;
-    }
-
-    public Double getCOUPON() {
-        return COUPON;
-    }
-
-    public Double getDay_Change() {
-        return Day_Change;
-    }
-
-    public Double getPRICE() {
-        return PRICE;
+    public String getSecurity() {
+        return security;
     }
 
     @Override
     public String toString() {
         return "securityDT{" +
-                "SYMBOL='" + SYMBOL + '\'' +
-                ", SECURITY='" + SECURITY + '\'' +
-                ", DCC='" + DCC + '\'' +
-                ", CPN_FREQ='" + CPN_FREQ + '\'' +
-                ", COUPON=" + COUPON +
-                ", Day_Change=" + Day_Change +
-                ", PRICE=" + PRICE +
+                "symbol='" + symbol + '\'' +
+                ", security='" + security + '\'' +
+                ", dcc='" + dcc + '\'' +
+                ", cpn_freq='" + cpn_freq + '\'' +
+                ", coupon=" + coupon +
+                ", day_change=" + day_change +
+                ", price=" + price +
                 '}';
+    }
+
+    public void setSecurity(String security) {
+        this.security = security;
+    }
+
+    public String getDcc() {
+        return dcc;
+    }
+
+    public void setDcc(String dcc) {
+        this.dcc = dcc;
+    }
+
+    public String getCpn_freq() {
+        return cpn_freq;
+    }
+
+    public void setCpn_freq(String cpn_freq) {
+        this.cpn_freq = cpn_freq;
+    }
+
+    public Double getCoupon() {
+        return coupon;
+    }
+
+    public void setCoupon(Double coupon) {
+        this.coupon = coupon;
+    }
+
+    public Double getDay_change() {
+        return day_change;
+    }
+
+    public void setDay_change(Double day_change) {
+        this.day_change = day_change;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 }

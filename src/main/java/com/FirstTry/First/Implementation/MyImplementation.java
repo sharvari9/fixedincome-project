@@ -7,6 +7,8 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Date;
+
 
 @Repository
 public class MyImplementation implements myinterface {
@@ -14,7 +16,9 @@ public class MyImplementation implements myinterface {
     JdbcTemplate jdbcTemplate;
 
     @Override
-    public int login(Credential cd) {
+    public Credential login(Credential cd) {
+        urlObj clientcodeobj;
+        clientcodeobj=new urlObj();
         String uname = cd.getClient_code();
         String recievedPwd = cd.getPassword();
 
@@ -23,48 +27,53 @@ public class MyImplementation implements myinterface {
         System.out.println("login object"+originalCd.toString());
         System.out.println("Received PWD :"+ cd.getPassword());
         System.out.println("Password form db"+originalCd.getPassword());
+
+        clientcodeobj.setClientCode(originalCd.getClient_code());
         if(originalCd.getPassword().equals(recievedPwd)){
 
-            return 1;
+            return originalCd;
         }
-        else
-            return 0;
+        else {
+        //cd.setClient_code(null);
+        return originalCd;
+        }
     }
 
     @Override
-    public Data getData(String clientCode) {
+    public Data getData(urlObj obj) {
+        String clientCode=obj.getClientCode();
+       // System.out.println("received "+ obj.getClientCode());
         String clientSql = "select * from client_master where CLIENT_CODE=?";
-        clientDT cdt = jdbcTemplate.queryForObject(clientSql, new Object[]{clientCode}, new BeanPropertyRowMapper<>(clientDT.class));
-        System.out.println("hello clientdt "+cdt.toString());
+        Credential cdt = jdbcTemplate.queryForObject(clientSql, new Object[]{clientCode}, new BeanPropertyRowMapper<>(Credential.class));
+       // System.out.println("hello clientdt "+cdt.toString());
         ClientInfo clientInfo = new ClientInfo();
-        clientInfo.setCode(cdt.getCLIENT_CODE());
-        clientInfo.setCountry(cdt.getCOUNTRY());
+        clientInfo.setCode(cdt.getClient_code());
+        clientInfo.setCountry(cdt.getCountry());
         clientInfo.setName(cdt.getCLINET_NAME());
 
-//String portfolioSql="select PORTFOLIO from Portfolio where CLIENT_CODE=?";
-        // String portfolio=jdbcTemplate.queryForObject(portfolioSql,new Object[]{clientCode},String.class);
+
         String portfolioSql = "select * from portfolio where CLIENT_CODE=?";
         clientPortfolioDT cpdt = jdbcTemplate.queryForObject(portfolioSql, new Object[]{clientCode}, new BeanPropertyRowMapper<>(clientPortfolioDT.class));
-        System.out.println("hello clientportfoliodt "+cpdt.toString());
-        String securitySql = "select * from security_master where SYMBOL='TLT'";
+        //System.out.println("hello clientportfoliodt "+cpdt.toString());
 
-        //String symbol=cpdt.getPORTFOLIO();
-        //securityDT sdt = jdbcTemplate.queryForObject(securitySql, new Object[]{symbol}, new BeanPropertyRowMapper<>(securityDT.class));
-       securityDT sdt=jdbcTemplate.queryForObject(securitySql,new BeanPropertyRowMapper<>(securityDT.class));
+
+        String securitySql = "select * from security_master where SYMBOL=?";
+        String symbol=cpdt.getSymbol();
+        securityDT sdt = jdbcTemplate.queryForObject(securitySql, new Object[]{symbol}, new BeanPropertyRowMapper<>(securityDT.class));
         SecurityInfo securityInfo = new SecurityInfo();
-        System.out.println("hello babidi "+sdt.toString());
-        securityInfo.setCouponFreq(sdt.getCPN_FREQ());
-        securityInfo.setCouponRate(sdt.getCOUPON());
-        securityInfo.setName(sdt.getSECURITY());
-        securityInfo.setNotional(cpdt.getNOTIONAL());
-        securityInfo.setPrice(sdt.getPRICE());
-        securityInfo.setSymbol(sdt.getSYMBOL());
+       // System.out.println("hello babidi "+sdt.toString());
+        securityInfo.setCouponFreq(sdt.getCpn_freq());
+        securityInfo.setCouponRate(sdt.getCoupon());
+        securityInfo.setName(sdt.getSecurity());
+        securityInfo.setNotional(cpdt.getNotional());
+        securityInfo.setPrice(sdt.getPrice());
+        securityInfo.setSymbol(sdt.getSymbol());
 
         ResultValues rv = new ResultValues();
         rv.setCleanPrice(securityInfo.getPrice());
         String cpf = securityInfo.getCouponFreq();
 
-        double days = 2;
+        double days = 1;
         int ppy = 0;
         switch (cpf) {
             case "H":
@@ -80,12 +89,17 @@ public class MyImplementation implements myinterface {
                 ppy = 1;
 
         }
-        double timefactor = 5.0 / days;
+        double timefactor = 5.0 / days; // should change the numerator value depending on day queried
         double interestFactor = (securityInfo.getCouponRate() / 100.0) / ppy;
         double accruedInterest = timefactor * interestFactor * 100;
         rv.setAccruedInterest(accruedInterest);
         rv.setDirtyPrice(securityInfo.getPrice() + accruedInterest);
-        double diff = securityInfo.getPrice() - 60, tgain = diff + accruedInterest;
+
+        String priceSql="select PRICE from security_price where SYMBOL=? and Date=?";
+       // Date date='2018-07-1';
+        priceDT pdt=jdbcTemplate.queryForObject(priceSql,new Object[]{symbol,"2018-07-25"},new BeanPropertyRowMapper<>(priceDT.class));
+        System.out.println("bght price is "+pdt.getPrice());
+        double diff = pdt.getPrice()-securityInfo.getPrice(), tgain = diff + accruedInterest;// change the value to purchased price..tell chinki to update dates in price table
         rv.setTotalGain(tgain);
 
         Data data = new Data();

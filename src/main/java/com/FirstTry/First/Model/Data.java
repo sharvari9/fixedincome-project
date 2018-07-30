@@ -16,4 +16,16 @@ public class Data {
     public void setSecurityInfo(SecurityInfo securityInfo) {
         this.securityInfo = securityInfo;
     }
+
+    public ClientInfo getClientInfo() {
+        return clientInfo;
+    }
+
+    public ResultValues getResultValues() {
+        return resultValues;
+    }
+
+    public SecurityInfo getSecurityInfo() {
+        return securityInfo;
+    }
 }
