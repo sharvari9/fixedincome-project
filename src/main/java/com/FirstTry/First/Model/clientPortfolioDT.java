@@ -1,27 +1,39 @@
 package com.FirstTry.First.Model;
 
 public class clientPortfolioDT {
-    String CLIENT_CODE,SYMBOL;
-    Double NOTIONAL;
+    String client_code,symbol;
+    Double notional;
 
-    public String getCLIENT_CODE() {
-        return CLIENT_CODE;
-    }
-
-    public String getPORTFOLIO() {
-        return SYMBOL;
+    public String getClient_code() {
+        return client_code;
     }
 
     @Override
     public String toString() {
         return "clientPortfolioDT{" +
-                "CLIENT_CODE='" + CLIENT_CODE + '\'' +
-                ", SYMBOL='" + SYMBOL + '\'' +
-                ", NOTIONAL=" + NOTIONAL +
+                "client_code='" + client_code + '\'' +
+                ", symbol='" + symbol + '\'' +
+                ", notional=" + notional +
                 '}';
     }
 
-    public Double getNOTIONAL() {
-        return NOTIONAL;
+    public void setClient_code(String client_code) {
+        this.client_code = client_code;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
+    }
+
+    public Double getNotional() {
+        return notional;
+    }
+
+    public void setNotional(Double notional) {
+        this.notional = notional;
     }
 }

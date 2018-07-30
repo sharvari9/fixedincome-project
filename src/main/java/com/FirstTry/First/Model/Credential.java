@@ -4,7 +4,7 @@ public class Credential {
     String client_code;
     String password;
     String country;
-    String clinet_name;
+    String CLINET_NAME;
 
     public String getClient_code() {
         return client_code;
@@ -22,26 +22,26 @@ public class Credential {
         this.password = password;
     }
 
+    public String getCLINET_NAME() {
+        return CLINET_NAME;
+    }
+
     @Override
     public String toString() {
         return "Credential{" +
                 "client_code='" + client_code + '\'' +
                 ", password='" + password + '\'' +
                 ", country='" + country + '\'' +
-                ", client_name='" + clinet_name + '\'' +
+                ", CLINET_NAME='" + CLINET_NAME + '\'' +
                 '}';
-    }
-
-    public void setClient_name(String client_name) {
-        this.clinet_name = client_name;
     }
 
     public void setCountry(String country) {
         this.country = country;
     }
 
-    public String getClient_name() {
-        return clinet_name;
+    public void setCLINET_NAME(String CLINET_NAME) {
+        this.CLINET_NAME = CLINET_NAME;
     }
 
     public String getCountry() {

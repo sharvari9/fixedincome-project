@@ -3,29 +3,33 @@ package com.FirstTry.First.Model;
 import java.sql.Date;
 
 public class priceDT {
-
-    String SYMBOL;
-    Date DATE;
-    Double PRICE;
-
-    public String getSYMBOL() {
-        return SYMBOL;
+    public String getSymbol() {
+        return symbol;
     }
 
-    @Override
-    public String toString() {
-        return "priceDT{" +
-                "SYMBOL='" + SYMBOL + '\'' +
-                ", DATE=" + DATE +
-                ", PRICE=" + PRICE +
-                '}';
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 
-    public Date getDATE() {
-        return DATE;
+    public Date getDate() {
+        return date;
     }
 
-    public Double getPRICE() {
-        return PRICE;
+    public void setDate(Date date) {
+        this.date = date;
     }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    String symbol;
+    Date date;
+    Double price;
+
+
 }
