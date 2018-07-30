@@ -16,27 +16,34 @@ public class MyImplementation implements myinterface {
     JdbcTemplate jdbcTemplate;
 
     @Override
-    public Credential login(Credential cd) {
-        urlObj clientcodeobj;
-        clientcodeobj=new urlObj();
-        String uname = cd.getClient_code();
+    public LoginResponse login(Credential cd) {
+        LoginResponse loginResponse = new LoginResponse();
+        String client_code = cd.getClient_code();
+        if(client_code.length()  == 0){
+            loginResponse.setStatus(0);
+            return loginResponse;
+        }
         String recievedPwd = cd.getPassword();
-
         String sql = "select * from client_master where CLIENT_CODE = ?";
-         Credential originalCd = jdbcTemplate.queryForObject(sql,new Object[]{uname},new BeanPropertyRowMapper<>(Credential.class));
-        System.out.println("login object"+originalCd.toString());
-        System.out.println("Received PWD :"+ cd.getPassword());
-        System.out.println("Password form db"+originalCd.getPassword());
-
-        clientcodeobj.setClientCode(originalCd.getClient_code());
-        if(originalCd.getPassword().equals(recievedPwd)){
-
-            return originalCd;
+        Credential trueCredential;
+        try {
+            trueCredential = jdbcTemplate.queryForObject(sql, new Object[]{client_code}, new BeanPropertyRowMapper<>(Credential.class));
         }
-        else {
-        //cd.setClient_code(null);
-        return originalCd;
+        catch(Exception e){
+            loginResponse.setStatus(0);
+            return loginResponse;
         }
+
+        System.out.println("True Credential : \n"+trueCredential.toString());
+        System.out.println("Received Credential : \n"+cd.toString());
+        if(trueCredential.getPassword().equals(recievedPwd)){
+            loginResponse.setStatus(1);
+            loginResponse.setClient_code(cd.getClient_code());
+        }
+        else{
+            loginResponse.setStatus(0);
+        }
+        return loginResponse;
     }
 
     @Override
