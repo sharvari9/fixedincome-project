@@ -15,16 +15,21 @@ public class MyImplementation implements myinterface {
 
     @Override
     public int login(Credential cd) {
-        String uname = cd.getClient_code();
+        String client_code = cd.getClient_code();
+        if(client_code.length()  == 0) return 0;
         String recievedPwd = cd.getPassword();
-
         String sql = "select * from client_master where CLIENT_CODE = ?";
-         Credential originalCd = jdbcTemplate.queryForObject(sql,new Object[]{uname},new BeanPropertyRowMapper<>(Credential.class));
-        System.out.println("login object"+originalCd.toString());
-        System.out.println("Received PWD :"+ cd.getPassword());
-        System.out.println("Password form db"+originalCd.getPassword());
-        if(originalCd.getPassword().equals(recievedPwd)){
+        Credential trueCredential;
+        try {
+             trueCredential = jdbcTemplate.queryForObject(sql, new Object[]{client_code}, new BeanPropertyRowMapper<>(Credential.class));
+        }
+        catch(Exception e){
+            return 0;
+        }
 
+        System.out.println("True Credential : \n"+trueCredential.toString());
+        System.out.println("Received Credential : \n"+cd.toString());
+        if(trueCredential.getPassword().equals(recievedPwd)){
             return 1;
         }
         else

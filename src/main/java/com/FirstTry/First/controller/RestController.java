@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 
-@RestController
+@org.springframework.web.bind.annotation.RestController
 @CrossOrigin(allowedHeaders = {"Origin","X-Requested-With","Content-Type","Accept" },methods = {RequestMethod.POST,RequestMethod.GET,RequestMethod.DELETE,RequestMethod.HEAD})
-public class FirstController {
+public class RestController {
     @Autowired
     MyImplementation mi;
 
