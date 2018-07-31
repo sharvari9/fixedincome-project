@@ -1,9 +1,12 @@
 package com.FirstTry.First.Model;
 
+import java.util.ArrayList;
+
 public class Data {
     ClientInfo clientInfo;
     ResultValues resultValues;
-    SecurityInfo securityInfo;
+    fullSecurityInfo securityInfo;
+    ArrayList<marketPrice> priceList;
 
     public void setClientInfo(ClientInfo clientInfo) {
         this.clientInfo = clientInfo;
@@ -13,8 +16,12 @@ public class Data {
         this.resultValues = resultValues;
     }
 
-    public void setSecurityInfo(SecurityInfo securityInfo) {
+    public void setSecurityInfo(fullSecurityInfo securityInfo) {
         this.securityInfo = securityInfo;
+    }
+
+    public void setPriceList(ArrayList<marketPrice> priceList) {
+        this.priceList = priceList;
     }
 
     public ClientInfo getClientInfo() {
@@ -25,7 +32,11 @@ public class Data {
         return resultValues;
     }
 
-    public SecurityInfo getSecurityInfo() {
+    public fullSecurityInfo getSecurityInfo() {
         return securityInfo;
+    }
+
+    public ArrayList<marketPrice> getPriceList() {
+        return priceList;
     }
 }

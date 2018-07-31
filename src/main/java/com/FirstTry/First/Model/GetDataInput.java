@@ -1,6 +1,7 @@
 package com.FirstTry.First.Model;
 
 public class GetDataInput {
+
     public String getClientCode() {
         return clientCode;
     }

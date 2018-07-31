@@ -1,12 +1,11 @@
 package com.FirstTry.First.controller;
 
 import com.FirstTry.First.Implementation.MyImplementation;
-import com.FirstTry.First.Model.Credential;
-import com.FirstTry.First.Model.Data;
-import com.FirstTry.First.Model.GetDataInput;
-import com.FirstTry.First.Model.LoginResponse;
+import com.FirstTry.First.Model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @org.springframework.web.bind.annotation.RestController
@@ -21,11 +20,19 @@ public class RestController {
         return mi.login(cd);
     }
 
-@RequestMapping(value = "/getdata")
-    public Data getData(@RequestBody GetDataInput clientCode ){
+    @RequestMapping(value = "/getlistdata")
+    public listData getListData(@RequestBody GetDataInput clientCode ){
 
-       // System.out.println("calling get");
-        Data d=mi.getData(clientCode);
+        // System.out.println("calling get");
+        listData d=mi.getSecuritiesList(clientCode);
         return d;
-}
+    }
+
+    @RequestMapping(value = "/getFulldata")
+    public Data getListData(@RequestBody clickCodes codes ){
+
+        // System.out.println("calling get");
+        Data d=mi.getFullData(codes);
+        return d;
+    }
 }

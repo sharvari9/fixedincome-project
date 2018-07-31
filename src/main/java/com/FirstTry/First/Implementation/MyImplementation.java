@@ -7,7 +7,8 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Repository
@@ -19,7 +20,7 @@ public class MyImplementation implements myinterface {
     public LoginResponse login(Credential cd) {
         LoginResponse loginResponse = new LoginResponse();
         String client_code = cd.getClient_code();
-        if(client_code.length()  == 0){
+        if (client_code.length() == 0) {
             loginResponse.setStatus(0);
             return loginResponse;
         }
@@ -28,58 +29,114 @@ public class MyImplementation implements myinterface {
         Credential trueCredential;
         try {
             trueCredential = jdbcTemplate.queryForObject(sql, new Object[]{client_code}, new BeanPropertyRowMapper<>(Credential.class));
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             loginResponse.setStatus(0);
             return loginResponse;
         }
 
-        System.out.println("True Credential : \n"+trueCredential.toString());
-        System.out.println("Received Credential : \n"+cd.toString());
-        if(trueCredential.getPassword().equals(recievedPwd)){
+        System.out.println("True Credential : \n" + trueCredential.toString());
+        System.out.println("Received Credential : \n" + cd.toString());
+        if (trueCredential.getPassword().equals(recievedPwd)) {
             loginResponse.setStatus(1);
             loginResponse.setClient_code(cd.getClient_code());
-        }
-        else{
+        } else {
             loginResponse.setStatus(0);
         }
         return loginResponse;
     }
 
+
     @Override
-    public Data getData(GetDataInput obj) {
-        String clientCode=obj.getClientCode();
-       // System.out.println("received "+ obj.getClientCode());
+    public listData getSecuritiesList(GetDataInput cc) {
+        String client_code = cc.getClientCode();
+
         String clientSql = "select * from client_master where CLIENT_CODE=?";
-        Credential cdt = jdbcTemplate.queryForObject(clientSql, new Object[]{clientCode}, new BeanPropertyRowMapper<>(Credential.class));
-       // System.out.println("hello clientdt "+cdt.toString());
+        Credential cdt = jdbcTemplate.queryForObject(clientSql, new Object[]{client_code}, new BeanPropertyRowMapper<>(Credential.class));
+        // System.out.println("hello clientdt "+cdt.toString());
         ClientInfo clientInfo = new ClientInfo();
         clientInfo.setCode(cdt.getClient_code());
         clientInfo.setCountry(cdt.getCountry());
         clientInfo.setName(cdt.getCLINET_NAME());
 
-
+        System.out.println("hello clientcode is " + client_code);
         String portfolioSql = "select * from portfolio where CLIENT_CODE=?";
-        clientPortfolioDT cpdt = jdbcTemplate.queryForObject(portfolioSql, new Object[]{clientCode}, new BeanPropertyRowMapper<>(clientPortfolioDT.class));
-        //System.out.println("hello clientportfoliodt "+cpdt.toString());
+        List<listPortfolioDT> list = jdbcTemplate.query(portfolioSql, new Object[]{client_code}, new BeanPropertyRowMapper<>(listPortfolioDT.class));
+        System.out.println("hello list is " + list.toString());
 
+        ArrayList<Double> prices = new ArrayList<>(list.size());
+        String priceSql = "select PRICE from security_price where SYMBOL=? and DATE=? ";
+        String date, secCode;
+        for (listPortfolioDT l : list) {
+            secCode = l.getPortfolio();
+           // date = l.getBuy_date();
+            Double price = jdbcTemplate.queryForObject(priceSql, new Object[]{secCode, "07/22/2018"}, Double.class);
+            prices.add(price);
+        }
+        int size = list.size();
+        ArrayList<SecurityRow> rows = new ArrayList<>(size);
+        double bp,cp,n,tg,diff;
+        for (int i = 0; i < size; i++) {
+            SecurityRow sr = new SecurityRow();
+            sr.setBoughtprice(list.get(i).getBuy_price());
+            sr.setNotional(list.get(i).getNotional());
+            sr.setSecurityCode(list.get(i).getPortfolio());
+            sr.setTradeDate(list.get(i).getBuy_date());
+            sr.setMarketprice(prices.get(i));
+            sr.setSecurityName(list.get(i).getSecurity_name());
+            bp=sr.getBoughtprice();
+            cp=sr.getMarketprice();
+            n=new Double(sr.getNotional());
+            diff=cp-bp;
+            diff/=bp;
+            tg=diff*n;
+            tg=tg/n;
+            tg*=100;
+            tg*=100;
+            tg=Math.round(tg)/100.0;
+            sr.setGainPercentage(tg);
+            rows.add(sr);
+        }
+
+        listData ld=new listData();
+        ld.setClientInfo(clientInfo);
+        ld.setRows(rows);
+        return ld;
+    }
+
+    @Override
+    public Data getFullData(clickCodes codes) {
+        String clientCode = codes.getClientCode();
+        String secCode = codes.getSecurityCode();
+
+        String clientSql = "select * from client_master where CLIENT_CODE=?";
+        Credential cdt = jdbcTemplate.queryForObject(clientSql, new Object[]{clientCode}, new BeanPropertyRowMapper<>(Credential.class));
+        // System.out.println("hello clientdt "+cdt.toString());
+        ClientInfo clientInfo = new ClientInfo();
+        clientInfo.setCode(cdt.getClient_code());
+        clientInfo.setCountry(cdt.getCountry());
+        clientInfo.setName(cdt.getCLINET_NAME());
+
+        String portfolioSql = "select * from portfolio where CLIENT_CODE=? and PORTFOLIO=?";
+        listPortfolioDT lpdt = jdbcTemplate.queryForObject(portfolioSql, new Object[]{clientCode, secCode}, new BeanPropertyRowMapper<>(listPortfolioDT.class));
 
         String securitySql = "select * from security_master where SYMBOL=?";
-        String symbol=cpdt.getSymbol();
-        securityDT sdt = jdbcTemplate.queryForObject(securitySql, new Object[]{symbol}, new BeanPropertyRowMapper<>(securityDT.class));
-        SecurityInfo securityInfo = new SecurityInfo();
-       // System.out.println("hello babidi "+sdt.toString());
-        securityInfo.setCouponFreq(sdt.getCpn_freq());
-        securityInfo.setCouponRate(sdt.getCoupon());
-        securityInfo.setName(sdt.getSecurity());
-        securityInfo.setNotional(cpdt.getNotional());
-        securityInfo.setPrice(sdt.getPrice());
-        securityInfo.setSymbol(sdt.getSymbol());
+        securityDT sdt = jdbcTemplate.queryForObject(securitySql, new Object[]{secCode}, new BeanPropertyRowMapper<>(securityDT.class));
+
+        fullSecurityInfo fsi = new fullSecurityInfo();
+        fsi.setBuyDate(lpdt.getBuy_date());
+        fsi.setBuyPrice(lpdt.getBuy_price());
+        fsi.setCouponFreq(sdt.getCpn_freq());
+        fsi.setCouponRate(sdt.getCoupon());
+        fsi.setCurrrentPrice(sdt.getPrice());
+        fsi.setName(lpdt.getSecurity_name());
+        fsi.setNotional(lpdt.getNotional());
+        fsi.setSecCode(sdt.getSymbol());
+
 
         ResultValues rv = new ResultValues();
-        rv.setCleanPrice(securityInfo.getPrice());
-        String cpf = securityInfo.getCouponFreq();
-
+        double cleanPrice=fsi.getCurrrentPrice();
+        double accruedInterest, timeFactor,interestFactor;
+        String cpf=fsi.getCouponFreq();
         double days = 1;
         int ppy = 0;
         switch (cpf) {
@@ -96,23 +153,42 @@ public class MyImplementation implements myinterface {
                 ppy = 1;
 
         }
-        double timefactor = 5.0 / days; // should change the numerator value depending on day queried
-        double interestFactor = (securityInfo.getCouponRate() / 100.0) / ppy;
-        double accruedInterest = timefactor * interestFactor * 100;
-        rv.setAccruedInterest(accruedInterest);
-        rv.setDirtyPrice(securityInfo.getPrice() + accruedInterest);
+         timeFactor = 5.0 / days; // should change the numerator value depending on day queried
+         interestFactor = (fsi.getCouponRate() / 100.0) / ppy;
+         accruedInterest = timeFactor * interestFactor * 100;
+         accruedInterest*=1000;
+         long ai=Math.round(accruedInterest);
+         double accinterest=ai/1000.0;
 
-        String priceSql="select PRICE from security_price where SYMBOL=? and Date=?";
-       // Date date='2018-07-1';
-        priceDT pdt=jdbcTemplate.queryForObject(priceSql,new Object[]{symbol,"2018-07-25"},new BeanPropertyRowMapper<>(priceDT.class));
-        System.out.println("bght price is "+pdt.getPrice());
-        double diff = pdt.getPrice()-securityInfo.getPrice(), tgain = diff + accruedInterest;// change the value to purchased price..tell chinki to update dates in price table
-        rv.setTotalGain(tgain);
+        rv.setAccruedInterest(accinterest);
+        rv.setCleanPrice(cleanPrice);
 
-        Data data = new Data();
-        data.setClientInfo(clientInfo);
-        data.setResultValues(rv);
-        data.setSecurityInfo(securityInfo);
-        return data;
+        rv.setDirtyPrice(cleanPrice + accinterest);
+        double diff=fsi.getCurrrentPrice()-fsi.getBuyPrice();
+        System.out.println("notional value is "+fsi.getNotional());
+        double tGain=(diff/fsi.getBuyPrice())*new Double(fsi.getNotional());
+        tGain*=100;
+        tGain=Math.round(tGain)/100.0;
+        rv.setTotalGain(tGain);
+
+        String marketPricesSql = "select * from security_price where SYMBOL=?";
+        List<priceDT> pricesList = jdbcTemplate.query(marketPricesSql, new Object[]{secCode},new BeanPropertyRowMapper<>(priceDT.class));
+        System.out.println(pricesList.toString());
+        ArrayList<marketPrice> prices=new ArrayList<>(pricesList.size());
+        for(priceDT p:pricesList){
+            marketPrice mp=new marketPrice();
+            mp.setDate(p.getDate());
+            mp.setPrice(p.getPrice());
+            prices.add(mp);
+        }
+
+        Data d=new Data();
+        d.setClientInfo(clientInfo);
+        d.setPriceList(prices);
+        d.setResultValues(rv);
+        d.setSecurityInfo(fsi);
+        return d;
     }
+
+
 }
