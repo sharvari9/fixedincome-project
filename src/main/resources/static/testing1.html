@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Security Details</title>
+<link rel="shortcut icon" href="Images/title3.png" type="image/icon">
+
+<link href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style type="text/css">
+	body{
+		font-family: 'Varela Round', sans-serif;
+		margin:0px;
+	    padding:0px;
+	    box-sizing:border-box;
+	    background:white;
+	}
+	.navbar-header.col {
+		padding: 0 !important;
+	}	
+	.navbar {
+		background: #fff;
+		padding-left: 16px;
+		padding-right: 16px;
+		/* border-bottom: 1px solid #dfe3se8; */
+		border-radius: 0;
+        height: 50px;
+        position: fixed;
+        z-index: 1;
+        width: 100%;
+    }
+	.navbar .navbar-brand, .navbar .navbar-brand:hover, .navbar .navbar-brand:focus {
+		padding-left: 0;
+		font-size: 20px;
+		padding-right: 50px;
+	}
+	.navbar .navbar-brand b {
+		font-weight: bold;
+		color: #5c6ac4;		
+	}
+	.navbar .form-inline {
+        display: inline-block;
+    }
+	.navbar ul.nav li {
+		position: relative;
+	}
+	.navbar ul.nav li a {
+		color: #888;
+	}
+	.navbar .nav .btn-primary, .navbar .nav .btn-primary:active {
+		color: #fff;
+		background: #5c6ac4;
+		padding-top: 8px;
+		padding-bottom: 6px;
+		border-radius: 4px;
+		vertical-align: middle;
+		border: none;
+		min-width: 120px;
+		margin-top: 8px;
+	}
+	.navbar .navbar-right li:first-child a {
+		padding-right: 30px;
+	}
+	.navbar .nav .btn-primary:hover, .navbar .nav .btn-primary:focus {		
+		color: #fff;
+		outline: none;
+		background: #5765c1;
+	}
+	.search-box .btn span {
+		transform: scale(0.9);
+		display: inline-block;
+	}
+	.navbar .nav-item i {
+		font-size: 18px;
+	}
+	.navbar .dropdown-item i {
+		font-size: 16px;
+		min-width: 22px;
+	}
+	.navbar ul.nav li.active a, .navbar ul.nav li.open > a {
+		background: transparent !important;
+	}
+	.navbar .dropdown-menu {
+		border-radius: 1px;
+		border-color: #e5e5e5;
+		box-shadow: 0 2px 8px rgba(0,0,0,.05);
+	}
+	.navbar .nav .dropdown-menu li a, .navbar .nav .dropdown-menu li a:hover, .navbar .nav .dropdown-menu li a:focus {
+		padding: 8px 20px;
+		line-height: normal;
+	}
+	.navbar .navbar-form {
+		border: none;
+	}
+	.navbar .navbar-form-wrapper {
+		padding: 0 15px;
+	}
+    .navbar .login-form label {
+        color: #888;
+        font-weight: normal;
+    }
+	.navbar .dropdown-menu.login-form {
+		width: 280px;
+		padding: 20px;
+		left: auto;
+		right: 0;
+        font-size: 14px;
+	}
+	.navbar .nav .dropdown-menu.login-form a {
+		padding: 0 !important;
+		color: #5c6ac4;
+        font-weight: normal;
+	}
+	.navbar .nav .dropdown-menu.login-form a:hover{
+		text-decoration: underline;
+	}
+	.navbar .dropdown-menu.login-form .checkbox-inline {
+		margin-top: 10px;
+	}
+	@media (min-width: 1200px){
+		.form-inline .input-group {
+			width: 300px;
+			margin-left: 30px;
+		}
+	}
+	@media (max-width: 768px){
+		.navbar .dropdown-menu.login-form {
+			width: 100%;
+			padding: 10px 15px;
+			background: transparent;
+			border: none;
+		}
+		.navbar .form-inline {
+			display: block;
+		}
+		.navbar .input-group {
+			width: 100%;
+		}
+		.navbar .nav .btn-primary, .navbar .nav .btn-primary:active {
+			display: block;
+		}
+	}
+	
+	.main_sidebar {
+	    min-height:100vh;
+	    position:fixed;
+	    top:53px;
+	    left:0;
+	    width:200px;
+	    transition: all 300ms cubic-bezier(0.65, 0.05, 0.36, 1);
+	    will-change: left, width;
+	    /* box-shadow: inset -1px 0 10px rgba(0, 0, 0, 0.4); */
+	    background: white;
+	}
+	.main_sidebar:after {
+	    content: '';
+	    background-color: white;
+	    position: absolute;
+	    top: 0;
+	    z-index: -1;
+	    height: 100%;
+	    width: 58px;
+	}
+	.main_sidebar ul {
+	    list-style:none;
+	    padding-left:58px;
+	}
+	.main_sidebar ul li {
+	    padding:10px;
+	}
+	.main_sidebar ul li a {
+	    color:#fff;
+	    display:block;
+	}
+	.main_sidebar ul li i {
+	    float:left;
+	    color:white;
+	    margin-left:-58px;
+	    font-size:24px;
+	    /* padding-left:7px; */
+	}
+	.main_sidebar ul li:hover {
+	    background:#167696;
+	}
+	.main_sidebar ul li a:hover {
+	    color:#fff;
+	    text-decoration:none;
+	}
+	.main_sidebar ul li:hover i {
+	    color:#fff;
+	}
+	.main_sidebar ul li.active {
+	    background:#0f4698;
+	}
+	.main_sidebar ul li.active i {
+	    color:#fff;
+	}
+	.main_sidebar ul li.active:hover {
+	    background:#167696;
+	}
+	.main_sidebar ul li.active:hover i {
+	    color:#fff;
+	}
+
+	.profile-header-container{
+        margin: 0 auto;
+    }
+
+	.profile-header-img {
+		padding: 36px;
+	}
+
+	.profile-header-img > img.img-circle {
+		width: 120px;
+		height: 120px;
+		border: 2px solid #51D2B7;
+	}
+
+	.profile-header {
+		margin-top: 43px;
+	}
+
+/**
+ * Ranking component
+ */
+	.rank-label-container {
+		margin-top: -19px;
+		/* z-index: 1000; */
+		text-align: center;
+	}
+
+	.label.label-default.rank-label {
+		background-color: rgb(81, 210, 183);
+		padding: 5px 10px 5px 10px;
+		border-radius: 27px;
+	}
+	.footer {
+		position: fixed;
+		left: 0;
+		bottom: 0;
+		width: 100%;
+		background-color: grey;
+		color: white;
+		text-align: center;
+	}
+    .middle{
+        padding-left: 226px;
+    }
+	.gr-smaller-part {
+		float: right;
+	}
+	.gr-smaller-part {
+		width: 38%;
+	}
+	.right-pane-item-heading{
+    	background-color: #689a8e;
+	}
+	.lesson-planning .lesson-listing {
+    	margin-right: 5px;
+    	padding-left: 226px;
+    	background-color: red;
+	}
+	.lesson-planning .lesson-listing {
+	    transition: width 300ms ease;
+	    background-color: #CBD0D3 !important;
+	    color: #000;
+	    height: 100%;
+	    padding: 0;
+	    position: relative;
+	}
+	@media (min-width: 768px){
+		.col-sm-4 {
+	    	width: 33.33333333%;
+		}
+	}
+
+	#security_code_in {float:left; padding-top: 20px;} 
+	#seccurity_price {padding-left : 70px; float:left;}
+	#asc{padding-left : 100px; float:left;}
+</style>
+
+
+<!-- ---------------------------------------------- -->
+<!-- Script for Graph -->
+<!-- ---------------------------------------------- -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+function drawChart() {
+
+	var pricelistobj=JSON.parse(localStorage.getItem('listofprice'));
+	console.log("list of prices",pricelistobj);
+	// var days;
+	// for(i=0;i<5;i++)
+	// {
+
+	// }
+    var data = google.visualization.arrayToDataTable([
+    ['Date', 'MarketPrice'],
+    [pricelistobj[0].date,  pricelistobj[0].price],
+    [pricelistobj[1].date,  pricelistobj[1].price],
+    [pricelistobj[2].date,  pricelistobj[2].price],
+    [pricelistobj[3].date,  pricelistobj[3].price],
+	[pricelistobj[4].date,  pricelistobj[4].price],
+
+
+    ]
+	);
+
+var options = {
+    pointSize: 5,
+    title: 'Market Price of Bond',
+    curveType: 'function',
+    legend: { position: 'bottom' },
+	hAxis:{title:'Date'},
+	vAxis:{title:'MarketPrice (in $)',
+	bold: false,    // true or false
+    italic: false
+	}
+	
+};
+
+var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+chart.draw(data, options);
+}
+</script>
+
+</head> 
+
+<body>
+    
+<!-- ---------------------------------------------- -->
+<!-- Top nevigation bar -->
+<!-- ---------------------------------------------- -->
+        <nav class="navbar navbar-default navbar-expand-lg navbar-light">
+                <div class="navbar-header d-flex col">
+                    <div class="navbar-brand" href="#">Exchange<b>Clearance</b></div>  		
+                    <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle navbar-toggler ml-auto">
+                        <span class="navbar-toggler-icon"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+            
+                <div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
+                    <ul class="nav navbar-nav">
+                        <li class="nav-item"><a href="#" class="nav-link">Home</a></li>
+                        <li class="nav-item"><a href="#" class="nav-link">About</a></li>			
+                        <li class="nav-item"><a href="#" class="nav-link">Contact</a></li>
+            
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right ml-auto">			
+                        <li class="nav-item"><a href="#" class="btn btn-primary mt-1 mb-1">Logout</a></li>
+                    </ul>
+                </div>
+        </nav>
+
+        
+<!-- ---------------------------------------------- -->
+<!-- Side navigation -->
+<!-- ---------------------------------------------- -->
+        <div class="wrapper">
+                <aside class="main_sidebar">
+                    <div class="container">
+                        <div class="row">
+                            <div class="profile-header-container">   
+                                <div class="profile-header-img">
+                                    <img class="img-circle" src="Images/images.png">
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+                    
+                    <!-- <div>
+                        <p style="color: gray; padding-left: 30px" >
+                            It is a long established 
+                        </p>
+                    </div> -->
+
+                    <div id="sector2" class="col-sm-6 table" style="background-color: white; font-size: 10px ; height:150px ; width: 180px ; padding-top: 50px">
+                            <table class="table">
+                            <tbody>
+                            <tr>
+                                <td id="userName"> userName </td>
+                            </tr>      
+                            <tr>
+                                <td id = "clientcode">Success</td>
+                            </tr>
+                            <tr>
+                                <td id="country">country</td>
+                            </tr>
+                        
+                            </tbody>
+                            </table>
+					</div>
+					<div style = "padding-top: 50px">
+							<a href="securitiespage.html" class="btn btn-primary" style=" width: 200px">My Performance Summary</a>
+						</div>
+                </aside>
+		</div>
+
+
+        
+<!-- ---------------------------------------------- -->
+<!-- Display screen -->
+<!-- ---------------------------------------------- -->
+		<div class="row" style="padding-left: 226px ; padding-top: 52px;">
+				<div class="col-sm-6" style="background-color: white ; height: 700px">
+			 		<h1 id = "security_code" style="font: 42px arial">
+                     </h1>
+                     
+			 		<hr style="border-width: 2px">
+                     
+                     <div class = "result">
+							<div id = "result_loss" >
+
+
+									<div  id = "market_price_1" style="font: 42px arial ; color: blue ; float:left ">
+										Market Price
+									</div>
+									<div  id = "security_gain_1" style="float:right;font: 42px arial ; color: red  ; padding-right: 150px">
+										Price
+									</div>
+									<i class="fa fa-sort-desc" aria-hidden="true" style = "float:right ; font-size:36px ; color:red  ; z-index: 1"></i>
+							</div>
+	   
+	   
+							<div id = "result_profit">
+									<div  id = "market_price_2" style="font: 42px arial ; color: blue ; float:left ">
+											Market Price
+									</div>
+									<div  id = "security_gain_2" style="float:right;font: 42px arial ; color: green  ; padding-right: 150px">
+											Price
+									</div>
+									<i class="fa fa-sort-asc" aria-hidden="true" style = "float:right ; font-size:36px ; color:green  ; z-index: 1"></i>		
+							</div>
+			 		</div>
+
+			 		<div>
+                        <div id="sector2" class="col-sm-6 table" style="background-color: white; font-size:10px; height:120px ; width: 60% ; padding-top: 50px">
+                                    <table class="table">
+                                    <tbody>
+                                    <tr>
+                                        <td>Notional</td>
+                                        <td id="notionalvalue" ></td>
+                                        <!-- <td>def@somemail.com</td> -->
+                                    </tr>      
+                                    <tr>
+                                        <td>Coupon Rate</td>
+                                        <td id="couponrate"></td>
+                                        <!-- <td>john@example.com</td> -->
+                                    </tr>
+                                    <tr>
+                                        <td>Coupon Frequency</td>
+                                        <td id="couponfreq"></td>
+                                        <!-- <td>mary@example.com</td> -->
+                                    </tr>
+                                
+                                    </tbody>
+                                    </table>
+                            </div>
+			 			<div id="sector1" class="col-sm-6 table" style="background-color: white; height:400px ; width: 100% ; padding-top: 50px">
+		                    <table class="table">
+                            <tbody>
+                            <tr>
+                                <td>Clean Price</td>
+                                <td id="cleanprice"></td>
+                                <!-- <td>def@somemail.com</td> -->
+                            </tr>      
+                            <tr>
+                                <td>Accrued Interest</td>
+                                <td id="accruedinterest"></td>
+                                <!-- <td>john@example.com</td> -->
+                            </tr>
+                            <tr>
+                                <td>Dirty Price</td>
+                                <td id="dirtyprice"></td>
+                                <!-- <td>mary@example.com</td> -->
+                            </tr>
+                            <tr>
+                                
+                                <td><b>Total gain/loss</b></td>
+                                <td id="totgain"><b></b></td>
+                                
+                                <!-- <td>july@example.com</td> -->
+                            </tr>
+                            </tbody>
+			                </table>
+	                    </div>
+			 		</div>
+			  	</div>
+			  <div class="col-sm-6" style="background-color: white ; height: 700px">
+			  		<div class="col-sm-6" style="background-color: white; height: 700px ; width: 100% ">
+						<div id="curve_chart"  style="width: 100% ; height: 700px"></div>
+					</div>
+			  </div>
+		  
+        </div>
+		
+		
+		<script>
+			window.onload = function() {
+			var c_code =JSON.parse(localStorage.getItem('loginResp'));
+            console.log('c_code ===> ',c_code.client_code );
+             var id=c_code.client_code
+            
+            // function sendjsonobj()
+            // {
+            //     return retrivedobj;
+            // }
+				var s_code=localStorage.getItem('securitycode');
+
+				loginObj={
+					clientCode :id,
+					securityCode: s_code
+				}
+
+            var getData='http://localhost:7887/getFulldata'
+            
+         	if (window.XMLHttpRequest || window.ActiveXObject) {
+            	if (window.ActiveXObject) {
+                	try {
+                    	xhr = new ActiveXObject("Msxml2.XMLHTTP");
+                	} catch (exception) {
+                    	xhr = new ActiveXObject("Microsoft.XMLHTTP");
+                	}
+            	} else {
+                	xhr = new XMLHttpRequest();
+            	}
+        	} else {
+            	alert("Your browser does not support XMLHTTP Request...!");
+        	}
+
+        	xhr.open('POST', getData, true); // Make sure file is in same server
+        	// xhr.send(null);
+        	xhr.setRequestHeader('Content-Type', 'application/json');
+            
+
+        	xhr.send(JSON.stringify(loginObj));
+        	xhr.onreadystatechange = function() {
+            	if (xhr.readyState == 4) {
+                	if (xhr.status == 200) {
+                    	console.log(xhr.statusText);
+                         //console.log(' xhr.responseText ===>', xhr.responseText)
+                         var retrivedobj=JSON.parse(xhr.responseText);
+                         //console.log('json data',retrivedobj);
+
+						 var listofprice=JSON.stringify(retrivedobj.priceList);
+						 localStorage.setItem('listofprice',listofprice);
+						 //console.log("5 days price list",listofprice);
+						
+						var gain = retrivedobj.resultValues.totalGain;
+						// console.log("syuggyygyuyu" , gain);
+						
+						if(gain > 0){
+							console.log("thisis ===");
+							document.getElementById('result_loss').style.display = 'none';
+						}
+						else{
+							console.log("loss ho raha")
+							document.getElementById('result_profit').style.display = 'none';
+						}
+
+
+
+                     
+                	} else {
+                    	console.log(xhr.statusText);
+                     	
+                        console.log("Not Okay");
+                	}
+            	}
+         	};
+				
+			}
+		</script>
+        <script>
+
+            // console.log('loginResp',localStorage.getItem('loginResp'));
+            var c_code =JSON.parse(localStorage.getItem('loginResp'));
+            //console.log('c_code ===> ',c_code.client_code );
+             var id=c_code.client_code
+            
+            // function sendjsonobj()
+            // {
+            //     return retrivedobj;
+            // }
+				var s_code=localStorage.getItem('securitycode');
+
+				loginObj={
+					clientCode :id,
+					securityCode: s_code
+				}
+
+            var getData='http://localhost:7887/getFulldata'
+            
+         	if (window.XMLHttpRequest || window.ActiveXObject) {
+            	if (window.ActiveXObject) {
+                	try {
+                    	xhr = new ActiveXObject("Msxml2.XMLHTTP");
+                	} catch (exception) {
+                    	xhr = new ActiveXObject("Microsoft.XMLHTTP");
+                	}
+            	} else {
+                	xhr = new XMLHttpRequest();
+            	}
+        	} else {
+            	alert("Your browser does not support XMLHTTP Request...!");
+        	}
+
+        	xhr.open('POST', getData, true); // Make sure file is in same server
+        	// xhr.send(null);
+        	xhr.setRequestHeader('Content-Type', 'application/json');
+            
+
+        	xhr.send(JSON.stringify(loginObj));
+        	xhr.onreadystatechange = function() {
+            	if (xhr.readyState == 4) {
+                	if (xhr.status == 200) {
+                    	//console.log(xhr.statusText);
+                         //console.log(' xhr.responseText ===>', xhr.responseText)
+                         var retrivedobj=JSON.parse(xhr.responseText);
+                         //console.log('json data',retrivedobj);
+
+						 var listofprice=JSON.stringify(retrivedobj.priceList);
+						 localStorage.setItem('listofprice',listofprice);
+						 //console.log("5 days price list",listofprice);
+						
+						var gain = retrivedobj.resultValues.totalGain;
+						//console.log("syug" , gain);
+						if(gain > 0){
+							//console.log("thisis ===");
+							document.getElementById('result_loss').style.display = 'none';
+						}
+						else{
+							//console.log("loss ho raha")
+							document.getElementById('result_profit').style.display = 'none';
+						}
+
+						document.getElementById('market_price_1').innerHTML = retrivedobj.securityInfo.currrentPrice;
+						//console.log("uuu" , retrivedobj.securityInfo.currrentPrice );
+						document.getElementById('security_gain_1').innerHTML = retrivedobj.resultValues.totalGain;
+						
+						document.getElementById('market_price_2').innerHTML = retrivedobj.securityInfo.currrentPrice;
+						//console.log("uuu" , retrivedobj.securityInfo.currrentPrice );
+						document.getElementById('security_gain_2').innerHTML = retrivedobj.resultValues.totalGain;
+
+						document.getElementById('userName').innerHTML=retrivedobj.clientInfo.name;
+						
+						document.getElementById('clientcode').innerHTML=retrivedobj.clientInfo.code;
+
+						document.getElementById('country').innerHTML=retrivedobj.clientInfo.country;
+
+						document.getElementById('notionalvalue').innerHTML=retrivedobj.securityInfo.notional;
+						document.getElementById('couponrate').innerHTML=retrivedobj.securityInfo.couponRate;
+						document.getElementById('couponfreq').innerHTML=retrivedobj.securityInfo.couponFreq;
+
+						document.getElementById('cleanprice').innerHTML=retrivedobj.resultValues.cleanPrice;
+						document.getElementById('dirtyprice').innerHTML=retrivedobj.resultValues.dirtyPrice;
+						document.getElementById('accruedinterest').innerHTML=retrivedobj.resultValues.accruedInterest;
+						document.getElementById('totgain').innerHTML=retrivedobj.resultValues.totalGain;
+						document.getElementById('security_code').innerHTML=retrivedobj.securityInfo.name;
+
+
+
+                     
+                	} else {
+                    	console.log(xhr.statusText);
+                     	
+                        console.log("Not Okay");
+                	}
+            	}
+         	};
+
+         
+            </script>
+
+<script>
+		function noBack()
+		{
+			window.history.forward()
+		}
+	   noBack();
+	   window.onload = noBack;
+	   window.onpageshow = function(evt) { if (evt.persisted) noBack() }
+	   window.onunload = function() { void (0) }
+	</script>
+</body>
