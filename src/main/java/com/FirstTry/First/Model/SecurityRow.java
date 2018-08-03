@@ -52,9 +52,17 @@ public class SecurityRow {
 
         String securityName,tradeDate,securityCode;
         String notional;
-        double boughtprice,marketprice;
+        double boughtprice,marketprice, currentNotional;
 
         double gainPercentage;
+
+    public double getCurrentNotional() {
+        return currentNotional;
+    }
+
+    public void setCurrentNotional(double currentNotional) {
+        this.currentNotional = currentNotional;
+    }
 
     public double getGainPercentage() {
         return gainPercentage;

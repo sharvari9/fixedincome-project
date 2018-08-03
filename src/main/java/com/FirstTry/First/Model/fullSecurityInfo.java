@@ -68,4 +68,18 @@ public class fullSecurityInfo {
     public void setBuyPrice(Double buyPrice) {
         this.buyPrice = buyPrice;
     }
+
+    @Override
+    public String toString() {
+        return "fullSecurityInfo{" +
+                "name='" + name + '\'' +
+                ", secCode='" + secCode + '\'' +
+                ", CouponFreq='" + CouponFreq + '\'' +
+                ", buyDate='" + buyDate + '\'' +
+                ", notional='" + notional + '\'' +
+                ", currrentPrice=" + currrentPrice +
+                ", couponRate=" + couponRate +
+                ", buyPrice=" + buyPrice +
+                '}';
+    }
 }

@@ -2,10 +2,18 @@ package com.FirstTry.First.Model;
 
 public class ResultValues {
 
-    Double accruedInterest, cleanPrice, dirtyPrice, totalGain;
+    Double accruedInterest, cleanPrice, dirtyPrice, totalGain,currentNotional;
 
     public Double getAccruedInterest() {
         return accruedInterest;
+    }
+
+    public Double getCurrentNotional() {
+        return currentNotional;
+    }
+
+    public void setCurrentNotional(Double currentNotional) {
+        this.currentNotional = currentNotional;
     }
 
     public void setAccruedInterest(Double accruedInterest) {
